@@ -1,27 +1,32 @@
 // SPDX-License-Identifier: GPL-3.0
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.17;
 
-
+// Importa  a interface do contrato
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
+//Cria o contrato
 contract DigiDIO is ERC721{
 
+// Cria as caracteriticas do contrato
     struct Digimon{
         string name;
         uint level;
         string img;
     }
 
+// Cria uma lista de digimons
     Digimon[] public digimons;
     address public gameOwner;
 
+// Inicia o contrato
     constructor () ERC721 ("DigiDIO", "DWD"){
 
         gameOwner = msg.sender;
 
     } 
 
+// O moificador cria um critério para a utilização desse contrato
     modifier onlyOwnerOf(uint _monsterId) {
 
         require(ownerOf(_monsterId) == msg.sender,"Apenas o tamer pode batalhar com este Digimon");
@@ -29,6 +34,7 @@ contract DigiDIO is ERC721{
 
     }
 
+// Cria funções específicas para este contrato
     function battle(uint _attackingDigimon, uint _defendingDigimon) public onlyOwnerOf(_attackingDigimon){
         Digimon storage attacker = digimons[_attackingDigimon];
         Digimon storage defender = digimons[_defendingDigimon];
